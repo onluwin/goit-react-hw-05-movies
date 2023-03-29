@@ -1,27 +1,25 @@
-import { TrendingMoviesList } from 'components/Home/TrendingMoviesList';
-import { useEffect, useState } from 'react';
+import { MoviesList } from 'components/Home/MoviesList';
+import { useEffect } from 'react';
 
 import { fetchTrendings } from '../API/fetchMovies';
 
-export const Home = () => {
-  const [trendingMovies, setTrendingMovies] = useState([]);
+export const Home = ({ setCurrIdx, trendingMovies, setTrendingMovies }) => {
   useEffect(() => {
     try {
       fetchTrendings()
         .then(({ results }) => {
-          console.log(results);
           setTrendingMovies(results);
         })
         .catch(console.log);
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [setTrendingMovies]);
   return (
     <main>
       <section>
         <h2>Trending today</h2>
-        <TrendingMoviesList movies={trendingMovies} />
+        <MoviesList movies={trendingMovies} setCurrIdx={setCurrIdx} />
       </section>
     </main>
   );
