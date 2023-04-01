@@ -1,14 +1,10 @@
 import { MoviesList } from 'components/Home/MoviesList';
 import { useEffect } from 'react';
 
-import { fetchTrendings } from '../API/fetchMovies';
+import { fetchTrendings } from '../../API/fetchMovies';
+import { HomeTitle, TrendingSection } from './Home.styled';
 
-export const Home = ({
-  setCurrIdx,
-  setCurrId,
-  trendingMovies,
-  setTrendingMovies,
-}) => {
+export const Home = ({ setCurrId, trendingMovies, setTrendingMovies }) => {
   useEffect(() => {
     try {
       fetchTrendings()
@@ -22,14 +18,10 @@ export const Home = ({
   }, [setTrendingMovies]);
   return (
     <main>
-      <section>
-        <h2>Trending today</h2>
-        <MoviesList
-          movies={trendingMovies}
-          setCurrId={setCurrId}
-          setCurrIdx={setCurrIdx}
-        />
-      </section>
+      <TrendingSection>
+        <HomeTitle>Trending movies today</HomeTitle>
+        <MoviesList movies={trendingMovies} setCurrId={setCurrId} />
+      </TrendingSection>
     </main>
   );
 };

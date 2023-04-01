@@ -1,19 +1,18 @@
-import { Home } from 'pages/Home';
+import { Home } from 'pages/Home/Home';
 import { Movies } from '../pages/Movies';
 
 import { MovieDetails } from '../pages/MovieDetails/MovieDetails';
-import { Cast } from '../pages/MovieDetails/Cast';
-import { Reviews } from '../pages/MovieDetails/Reviews';
+import { Cast } from '../pages/MovieDetails/Cast/Cast';
+import { Reviews } from '../pages/MovieDetails/Reviews/Reviews';
 
 import { SharedLayout } from './SharedLayout';
 
 import { Route, Routes } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export const App = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [movies, setMovies] = useState(null);
-  const [currIdx, setCurrIdx] = useState(null);
   const [currId, setCurrId] = useState(null);
 
   return (
@@ -24,7 +23,6 @@ export const App = () => {
             index
             element={
               <Home
-                setCurrIdx={setCurrIdx}
                 setCurrId={setCurrId}
                 trendingMovies={trendingMovies}
                 setTrendingMovies={setTrendingMovies}
@@ -37,7 +35,6 @@ export const App = () => {
               <Movies
                 setMovies={setMovies}
                 movies={movies}
-                setCurrIdx={setCurrIdx}
                 setCurrId={setCurrId}
               />
             }
@@ -46,8 +43,8 @@ export const App = () => {
             path="movies/:movieId"
             element={<MovieDetails movieId={currId} />}
           >
-            <Route path="cast" element={<Cast />} />
-            <Route path="reviews" element={<Reviews />} />
+            <Route path="cast" element={<Cast movieId={currId} />} />
+            <Route path="reviews" element={<Reviews movieId={currId} />} />
           </Route>
         </Route>
       </Routes>

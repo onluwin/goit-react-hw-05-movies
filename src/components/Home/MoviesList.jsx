@@ -1,17 +1,11 @@
 import { Link } from 'react-router-dom';
 
-export const MoviesList = ({ movies, setCurrIdx, setCurrId }) => {
+export const MoviesList = ({ movies, setCurrId }) => {
   return (
     <ul>
-      {movies.map(({ title, id }, index) => {
+      {movies.map(({ title, id }) => {
         return (
-          <li
-            onClick={() => {
-              setCurrIdx(index);
-              setCurrId(id);
-            }}
-            key={id}
-          >
+          <li onClick={() => setCurrId(id)} key={id}>
             <Link to={`/movies/${id}`}>{title}</Link>
           </li>
         );

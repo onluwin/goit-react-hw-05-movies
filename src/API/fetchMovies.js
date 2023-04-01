@@ -10,26 +10,26 @@ export const fetchTrendings = async () => {
   return data;
 };
 
-export const fetchMoviesByQuery = async query => {
+export const fetchMoviesByQuery = async (query, signal) => {
   const searchString = `search/movie?api_key=${apiKey}&query=${query}`;
-  const { data } = await axios.get(searchString);
+  const { data } = await axios.get(searchString, { signal });
   return data;
 };
 
-export const fetchMovieDetails = async movieId => {
+export const fetchMovieDetails = async (movieId, signal) => {
   const searchString = `movie/${movieId}?api_key=${apiKey}`;
-  const { data } = await axios.get(searchString);
+  const { data } = await axios.get(searchString, { signal });
   return data;
 };
 
-export const fetchCasts = async movieId => {
-  const searchString = `/movie/${movieId}/credits?append_to_response=reviews`;
-  const { data } = await axios(searchString);
+export const fetchCasts = async (movieId, signal) => {
+  const searchString = `/movie/${movieId}/credits?api_key=${apiKey}`;
+  const { data } = await axios(searchString, { signal });
   return data;
 };
 
-export const fetchReviews = async movieId => {
-  const searchString = `/movie/${movieId}/reviews`;
-  const { data } = await axios.get(searchString);
+export const fetchReviews = async (movieId, signal) => {
+  const searchString = `/movie/${movieId}/reviews?api_key=${apiKey}&append_to_response=reviews`;
+  const { data } = await axios.get(searchString, { signal });
   return data;
 };
