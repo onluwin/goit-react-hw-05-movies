@@ -1,10 +1,10 @@
 import { fetchMoviesByQuery } from '../API/fetchMovies';
 
-import { Formik, Form, Field } from 'formik';
 import { useEffect, useState } from 'react';
 import { MoviesList } from 'components/Home/MoviesList';
+import { MoviesForm } from 'components/MoviesForm';
 
-export const Movies = ({ movies, setMovies, setCurrIdx }) => {
+export const Movies = ({ movies, setMovies, setCurrIdx, setCurrId }) => {
   const [query, setQuery] = useState('');
 
   useEffect(() => {
@@ -27,14 +27,14 @@ export const Movies = ({ movies, setMovies, setCurrIdx }) => {
   };
   return (
     <>
-      <Formik initialValues={{ query: '' }} onSubmit={onFormSubmit}>
-        <Form>
-          <Field type="text" name="query" />
-          <button type="submit">submit</button>
-        </Form>
-      </Formik>
-      {movies && <MoviesList movies={movies} setCurrIdx={setCurrIdx} />}
+      <MoviesForm onFormSubmit={onFormSubmit} />
+      {movies && (
+        <MoviesList
+          movies={movies}
+          setCurrIdx={setCurrIdx}
+          setCurrId={setCurrId}
+        />
+      )}
     </>
   );
 };
-// тут буду делать fetch по query и передавать данные в MovieDetails

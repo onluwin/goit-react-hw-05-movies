@@ -1,6 +1,9 @@
 import { Home } from 'pages/Home';
 import { Movies } from '../pages/Movies';
-import { MovieDetails } from '../pages/MovieDetails';
+
+import { MovieDetails } from '../pages/MovieDetails/MovieDetails';
+import { Cast } from '../pages/MovieDetails/Cast';
+import { Reviews } from '../pages/MovieDetails/Reviews';
 
 import { SharedLayout } from './SharedLayout';
 
@@ -11,8 +14,7 @@ export const App = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [movies, setMovies] = useState(null);
   const [currIdx, setCurrIdx] = useState(null);
-
-  useEffect(() => {}, [currIdx]);
+  const [currId, setCurrId] = useState(null);
 
   return (
     <>
@@ -23,6 +25,7 @@ export const App = () => {
             element={
               <Home
                 setCurrIdx={setCurrIdx}
+                setCurrId={setCurrId}
                 trendingMovies={trendingMovies}
                 setTrendingMovies={setTrendingMovies}
               />
@@ -35,17 +38,17 @@ export const App = () => {
                 setMovies={setMovies}
                 movies={movies}
                 setCurrIdx={setCurrIdx}
+                setCurrId={setCurrId}
               />
             }
           />
           <Route
             path="movies/:movieId"
-            element={
-              <MovieDetails
-                movie={movies ? movies[currIdx] : trendingMovies[currIdx]}
-              />
-            }
-          />
+            element={<MovieDetails movieId={currId} />}
+          >
+            <Route path="cast" element={<Cast />} />
+            <Route path="reviews" element={<Reviews />} />
+          </Route>
         </Route>
       </Routes>
     </>
