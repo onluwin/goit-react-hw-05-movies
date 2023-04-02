@@ -3,17 +3,13 @@ import { transformUserScore } from '../../Utils/transformUserScoreToPercent';
 import defaultMovieImage from '../../images/default-movie-image.jpg';
 
 import { fetchMovieDetails } from 'API/fetchMovies';
-import { Suspense, useEffect, useState, useRef } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 
 export const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
   const { movieId } = useParams();
-
   const location = useLocation();
-  const backLinkRef = useRef();
-  backLinkRef.current = location.state?.from ?? '/movies';
-  console.log('location', location);
 
   useEffect(() => {
     if (!movieId) {
@@ -41,9 +37,11 @@ export const MovieDetails = () => {
   const size = 'w300/';
   const imageUrl = `${baseUrl}/${size}/${poster_path}`;
 
+  const backLinkHref = location.state?.from ?? '/';
+
   return (
     <>
-      <Link to={backLinkRef.current}>Go back</Link>
+      <Link to={backLinkHref}>Go back</Link>
       <div style={{ display: 'flex', marginTop: '20px' }}>
         <img
           src={poster_path ? imageUrl : defaultMovieImage}
@@ -66,10 +64,14 @@ export const MovieDetails = () => {
       <h4>Additional information</h4>
       <ul>
         <li>
-          <Link to={`cast`}>Cast</Link>
+          <Link to={`cast`} state={{ from: backLinkHref }}>
+            Cast
+          </Link>
         </li>
         <li>
-          <Link to={`reviews`}>Reviews</Link>
+          <Link to={`reviews`} state={{ from: backLinkHref }}>
+            Reviews
+          </Link>
         </li>
       </ul>
       <hr />
