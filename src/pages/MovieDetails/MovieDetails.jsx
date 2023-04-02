@@ -3,11 +3,15 @@ import { transformUserScore } from '../../Utils/transformUserScoreToPercent';
 import defaultMovieImage from '../../images/default-movie-image.jpg';
 
 import { fetchMovieDetails } from 'API/fetchMovies';
-import { useEffect, useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Suspense, useEffect, useState, useRef } from 'react';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 
 export const MovieDetails = ({ movieId }) => {
   const [movie, setMovie] = useState(null);
+
+  const location = useLocation();
+  const backLinkRef = useRef();
+  backLinkRef.current = location.state?.from ?? '/movies';
 
   useEffect(() => {
     if (!movieId) {
@@ -20,6 +24,7 @@ export const MovieDetails = ({ movieId }) => {
     } catch (error) {
       console.log(error);
     }
+
     return () => controller.abort();
   }, [movieId]);
 
@@ -36,7 +41,8 @@ export const MovieDetails = ({ movieId }) => {
 
   return (
     <>
-      <div style={{ display: 'flex' }}>
+      <Link to={backLinkRef.current}>Go back</Link>
+      <div style={{ display: 'flex', marginTop: '20px' }}>
         <img
           src={poster_path ? imageUrl : defaultMovieImage}
           alt={`${title} poster`}
@@ -66,7 +72,9 @@ export const MovieDetails = ({ movieId }) => {
       </ul>
       <hr />
 
-      <Outlet />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Outlet />
+      </Suspense>
     </>
   );
 };

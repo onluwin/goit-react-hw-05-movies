@@ -1,6 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy } from 'react';
 import { fetchCasts } from '../../../API/fetchMovies';
-import { CastList } from './CastList';
+
+const CastList = lazy(() =>
+  import('./CastList').then(module => ({ ...module, default: module.CastList }))
+);
 
 export const Cast = ({ movieId }) => {
   const [casts, setCasts] = useState(null);

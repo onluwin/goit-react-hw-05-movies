@@ -1,8 +1,14 @@
-import { MoviesList } from 'components/Home/MoviesList';
-import { useEffect } from 'react';
+import { lazy, useEffect } from 'react';
 
 import { fetchTrendings } from '../../API/fetchMovies';
 import { HomeTitle, TrendingSection } from './Home.styled';
+
+const MoviesList = lazy(() =>
+  import('../../components/Movies/MoviesList').then(module => ({
+    ...module,
+    default: module.MoviesList,
+  }))
+);
 
 export const Home = ({ setCurrId, trendingMovies, setTrendingMovies }) => {
   useEffect(() => {

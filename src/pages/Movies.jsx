@@ -1,40 +1,54 @@
 import { fetchMoviesByQuery } from '../API/fetchMovies';
 
-import { useEffect, useState } from 'react';
-import { MoviesList } from 'components/Home/MoviesList';
-import { MoviesForm } from 'components/MoviesForm';
+import { lazy, useEffect, useState } from 'react';
 import { MoviesTitle } from './Home/Home.styled';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
+
+const MoviesForm = lazy(() =>
+  import('../components/Movies/MoviesForm').then(module => ({
+    ...module,
+    default: module.MoviesForm,
+  }))
+);
+const MoviesList = lazy(() =>
+  import('../components/Movies/MoviesList').then(module => ({
+    ...module,
+    default: module.MoviesList,
+  }))
+);
 
 export const Movies = ({ movies, setMovies, setCurrId }) => {
   const [query, setQuery] = useState('');
+  const location = useLocation();
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const name = searchParams.get('movieName');
+  const movieName = searchParams.get('movieName') ?? '';
 
   useEffect(() => {
-    if (!query & !name) return;
+    if (!query & !movieName) return;
+
     const controller = new AbortController();
     const signal = controller.signal;
     try {
-      fetchMoviesByQuery(name ? name : query, signal)
+      fetchMoviesByQuery(movieName ? movieName : query, signal)
         .then(({ results }) => {
           setMovies(results);
         })
-        .catch(e => console.log(e));
+        .catch();
     } catch (error) {
       console.log(error);
     }
+    console.log(location);
     return () => {
       controller.abort();
       // setMovies([]);
     };
   }, [query, setMovies]);
 
-  const onFormSubmit = (values, { resetForm }) => {
-    setQuery(values.query);
+  const onFormSubmit = ({ query }, { resetForm }) => {
+    setQuery(query);
     resetForm();
-    setSearchParams({ movieName: values.query });
+    setSearchParams(query === '' ? {} : { movieName: query });
   };
   return (
     <>
@@ -42,7 +56,11 @@ export const Movies = ({ movies, setMovies, setCurrId }) => {
       {movies && (
         <>
           <MoviesTitle>Movies by your query</MoviesTitle>
-          <MoviesList movies={movies} setCurrId={setCurrId} />
+          <MoviesList
+            movies={movies}
+            setCurrId={setCurrId}
+            location={location}
+          />
         </>
       )}
     </>

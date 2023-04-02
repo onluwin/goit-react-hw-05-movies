@@ -1,6 +1,12 @@
-import { useEffect, useState } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import { fetchReviews } from '../../../API/fetchMovies';
-import { ReviewsList } from './ReviewsList';
+
+const ReviewsList = lazy(() =>
+  import('./ReviewsList').then(module => ({
+    ...module,
+    default: module.ReviewsList,
+  }))
+);
 
 export const Reviews = ({ movieId }) => {
   const [reviews, setReviews] = useState(null);

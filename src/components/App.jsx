@@ -1,14 +1,38 @@
-import { Home } from 'pages/Home/Home';
-import { Movies } from '../pages/Movies';
-
-import { MovieDetails } from '../pages/MovieDetails/MovieDetails';
-import { Cast } from '../pages/MovieDetails/Cast/Cast';
-import { Reviews } from '../pages/MovieDetails/Reviews/Reviews';
+import { Route, Routes } from 'react-router-dom';
+import { useState, lazy } from 'react';
 
 import { SharedLayout } from './SharedLayout';
 
-import { Route, Routes } from 'react-router-dom';
-import { useState } from 'react';
+const Home = lazy(() =>
+  import('../pages/Home/Home').then(module => ({
+    ...module,
+    default: module.Home,
+  }))
+);
+const Movies = lazy(() =>
+  import('../pages/Movies').then(module => ({
+    ...module,
+    default: module.Movies,
+  }))
+);
+const MovieDetails = lazy(() =>
+  import('../pages/MovieDetails/MovieDetails').then(module => ({
+    ...module,
+    default: module.MovieDetails,
+  }))
+);
+const Cast = lazy(() =>
+  import('../pages/MovieDetails/Cast/Cast').then(module => ({
+    ...module,
+    default: module.Cast,
+  }))
+);
+const Reviews = lazy(() =>
+  import('../pages/MovieDetails/Reviews/Reviews').then(module => ({
+    ...module,
+    default: module.Reviews,
+  }))
+);
 
 export const App = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
