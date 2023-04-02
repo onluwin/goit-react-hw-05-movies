@@ -17,7 +17,7 @@ const MoviesList = lazy(() =>
   }))
 );
 
-export const Movies = ({ movies, setMovies, setCurrId }) => {
+export const Movies = ({ movies, setMovies }) => {
   const [query, setQuery] = useState('');
   const location = useLocation();
 
@@ -38,7 +38,6 @@ export const Movies = ({ movies, setMovies, setCurrId }) => {
     } catch (error) {
       console.log(error);
     }
-    console.log(location);
     return () => {
       controller.abort();
       // setMovies([]);
@@ -56,11 +55,7 @@ export const Movies = ({ movies, setMovies, setCurrId }) => {
       {movies && (
         <>
           <MoviesTitle>Movies by your query</MoviesTitle>
-          <MoviesList
-            movies={movies}
-            setCurrId={setCurrId}
-            location={location}
-          />
+          <MoviesList movies={movies} location={location} />
         </>
       )}
     </>

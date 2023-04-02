@@ -37,7 +37,6 @@ const Reviews = lazy(() =>
 export const App = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [movies, setMovies] = useState(null);
-  const [currId, setCurrId] = useState(null);
 
   return (
     <>
@@ -47,7 +46,6 @@ export const App = () => {
             index
             element={
               <Home
-                setCurrId={setCurrId}
                 trendingMovies={trendingMovies}
                 setTrendingMovies={setTrendingMovies}
               />
@@ -55,20 +53,11 @@ export const App = () => {
           />
           <Route
             path="/movies"
-            element={
-              <Movies
-                setMovies={setMovies}
-                movies={movies}
-                setCurrId={setCurrId}
-              />
-            }
+            element={<Movies setMovies={setMovies} movies={movies} />}
           />
-          <Route
-            path="movies/:movieId"
-            element={<MovieDetails movieId={currId} />}
-          >
-            <Route path="cast" element={<Cast movieId={currId} />} />
-            <Route path="reviews" element={<Reviews movieId={currId} />} />
+          <Route path="movies/:movieId" element={<MovieDetails />}>
+            <Route path="cast" element={<Cast />} />
+            <Route path="reviews" element={<Reviews />} />
           </Route>
         </Route>
       </Routes>

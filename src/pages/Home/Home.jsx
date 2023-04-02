@@ -2,6 +2,7 @@ import { lazy, useEffect } from 'react';
 
 import { fetchTrendings } from '../../API/fetchMovies';
 import { HomeTitle, TrendingSection } from './Home.styled';
+import { useLocation } from 'react-router-dom';
 
 const MoviesList = lazy(() =>
   import('../../components/Movies/MoviesList').then(module => ({
@@ -10,7 +11,8 @@ const MoviesList = lazy(() =>
   }))
 );
 
-export const Home = ({ setCurrId, trendingMovies, setTrendingMovies }) => {
+export const Home = ({ trendingMovies, setTrendingMovies }) => {
+  const location = useLocation();
   useEffect(() => {
     try {
       fetchTrendings()
@@ -26,7 +28,7 @@ export const Home = ({ setCurrId, trendingMovies, setTrendingMovies }) => {
     <main>
       <TrendingSection>
         <HomeTitle>Trending movies today</HomeTitle>
-        <MoviesList movies={trendingMovies} setCurrId={setCurrId} />
+        <MoviesList movies={trendingMovies} location={location} />
       </TrendingSection>
     </main>
   );

@@ -1,4 +1,5 @@
 import { lazy, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { fetchReviews } from '../../../API/fetchMovies';
 
 const ReviewsList = lazy(() =>
@@ -8,8 +9,9 @@ const ReviewsList = lazy(() =>
   }))
 );
 
-export const Reviews = ({ movieId }) => {
+export const Reviews = () => {
   const [reviews, setReviews] = useState(null);
+  const { movieId } = useParams();
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;

@@ -1,4 +1,4 @@
-export const Castpst = ({ data }) => {
+const CastList = ({ data }) => {
   console.log('data', data);
   const baseUrl = 'https://image.tmdb.org/t/p/';
   const size = 'w300/';
@@ -14,3 +14,4 @@ export const Castpst = ({ data }) => {
     </ul>
   );
 };
+export default CastList;

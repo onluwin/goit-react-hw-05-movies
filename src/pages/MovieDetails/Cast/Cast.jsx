@@ -1,12 +1,12 @@
-import { useEffect, useState, lazy } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchCasts } from '../../../API/fetchMovies';
+import { useParams } from 'react-router-dom';
+import CastList from './CastList';
 
-const CastList = lazy(() =>
-  import('./CastList').then(module => ({ ...module, default: module.CastList }))
-);
-
-export const Cast = ({ movieId }) => {
+export const Cast = () => {
   const [casts, setCasts] = useState(null);
+  const { movieId } = useParams();
+
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;

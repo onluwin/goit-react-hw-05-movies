@@ -4,14 +4,16 @@ import defaultMovieImage from '../../images/default-movie-image.jpg';
 
 import { fetchMovieDetails } from 'API/fetchMovies';
 import { Suspense, useEffect, useState, useRef } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 
-export const MovieDetails = ({ movieId }) => {
+export const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
+  const { movieId } = useParams();
 
   const location = useLocation();
   const backLinkRef = useRef();
   backLinkRef.current = location.state?.from ?? '/movies';
+  console.log('location', location);
 
   useEffect(() => {
     if (!movieId) {
