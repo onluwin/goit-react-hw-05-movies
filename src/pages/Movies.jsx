@@ -42,7 +42,7 @@ export const Movies = ({ movies, setMovies }) => {
       controller.abort();
       // setMovies([]);
     };
-  }, [query, setMovies]);
+  }, [movieName, query, setMovies]);
 
   const onFormSubmit = ({ query }, { resetForm }) => {
     setQuery(query);
